@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control por Voz</title>
+</head>
+<body>
+    <h1>Jeffrey control voice</h1>
+    <button onclick="startRecognition()">Hablar</button>
+    <p id="result"></p>
+
+    <script>
+        function startRecognition() {
+            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+            recognition.lang = 'es-ES';
+            recognition.start();
+
+            recognition.onresult = function(event) {
+                const command = event.results[0][0].transcript;
+                document.getElementById('result').innerText = 'Comando: ' + command;
+                
+                //Enviar el comando al servidor Node.js
+                fetch('/command', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({command: command})
+                }).then(response => {
+                    if (response.ok) {
+                        console.log('Comando enviado al servidor con exito.');
+                    } else {
+                        console.error('Error al enviar el comando al servidor.');
+                    }
+                }).catch(error => {
+                    console.error('Error de red:', error);
+                });
+            };
+        }
+    </script>
+</body>
+</html>
