@@ -1,0 +1,16 @@
+{
+  "name": "camera-control",
+  "version": "1.0.0",
+  "description": "",
+  "main": "camera-control.js",
+  "scripts": {
+    "camera-control": "node camera-control.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.7",
+    "express": "^4.19.2",
+    "mqtt": "^5.10.1"
+  }
+}
